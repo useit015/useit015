@@ -1,0 +1,39 @@
+name: Redraw
+
+# Redraws every sheet from fresh GitHub numbers: nightly, by hand, and when
+# the drawing code changes.
+on:
+  schedule:
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: [scripts/**, lib/**, media/**]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: notebook
+  cancel-in-progress: false
+
+jobs:
+  redraw:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Commit if anything changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets data
+          git diff --cached --quiet || git commit -m "chore: redraw the notebook"
+          git push

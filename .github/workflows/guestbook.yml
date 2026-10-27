@@ -1,0 +1,52 @@
+name: Guestbook
+
+# Opening an issue titled "sign" writes the author's handle into the margin.
+# Only the login GitHub reports for the author is used; the issue's title and
+# body never reach a shell or the page.
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: notebook
+  cancel-in-progress: false
+
+jobs:
+  sign:
+    if: github.event.issue.title == 'sign' || startsWith(github.event.issue.title, 'sign ') || startsWith(github.event.issue.title, 'sign:')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run sign
+        env:
+          SIGNER: ${{ github.event.issue.user.login }}
+      - run: npm run build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Commit the signature
+        env:
+          SIGNER: ${{ github.event.issue.user.login }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets data
+          git diff --cached --quiet || git commit -m "chore: $SIGNER signed the margin"
+          git pull --rebase
+          git push
+      - name: Thank them and close the issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE: ${{ github.event.issue.number }}
+          SIGNER: ${{ github.event.issue.user.login }}
+        run: |
+          gh issue comment "$ISSUE" --repo "$GITHUB_REPOSITORY" --body "Written in, @$SIGNER. Thanks for stopping by. It shows on the profile once GitHub's image cache catches up, usually within a few minutes."
+          gh issue close "$ISSUE" --repo "$GITHUB_REPOSITORY"

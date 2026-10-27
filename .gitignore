@@ -1,0 +1,5 @@
+node_modules
+.DS_Store
+preview
+# Screenshot sources for tools/prepare-media.py; its outputs in media/ are committed.
+shots

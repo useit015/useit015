@@ -1,0 +1,22 @@
+{
+  "name": "useit015",
+  "version": "1.0.0",
+  "description": "Profile README, drawn in ballpoint",
+  "scripts": {
+    "build": "node scripts/build.ts",
+    "sign": "node scripts/sign.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/useit015/useit015.git"
+  },
+  "bugs": {
+    "url": "https://github.com/useit015/useit015/issues"
+  },
+  "homepage": "https://github.com/useit015/useit015#readme",
+  "devDependencies": {
+    "opentype.js": "1.3.4"
+  },
+  "private": true,
+  "type": "module"
+}
