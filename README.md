@@ -32,29 +32,3 @@
     <img alt="Guestbook. Click to sign: open an issue titled sign and your handle is written here." src="assets/light/guestbook.svg" width="100%">
   </picture>
 </a>
-
-<details>
-<summary><b>More pages from the notebook</b></summary>
-<br>
-
-- [LHAJ](https://smkr.vercel.app): a third-person 3D character controller and small game engine in Three.js. [Play it](https://smkr.vercel.app), or read the [repo](https://github.com/useit015/smkr).
-- [invoicer](https://github.com/useit015/invoicer): invoice CLI with a JSON contract, validation, themes and HTML/PDF rendering. Built for terminal and agent use.
-- [lengthfmt](https://github.com/useit015/lengthfmt): sorts imports, object properties and React dependencies by line length.
-- [Little Company](https://github.com/useit015/faces): eighteen procedurally drawn animal friends in one Canvas 2D file. No assets.
-- [Souk Fighter](https://github.com/useit015/souk-fighter): web fighting game with a character customizer and asset bundles. React 19 and Pixi.js 8.
-- [arena-forge](https://github.com/useit015/arena-forge): browser level editor for arena maps, exported as JSON. Three.js.
-- [red_tetris](https://github.com/useit015/red_tetris): real-time two-player Tetris, from 42.
-
-Earlier 42 / 1337 coursework is archived on this profile.
-
-</details>
-
-<details>
-<summary><b>How this page is drawn</b></summary>
-<br>
-
-Every line here is a seeded pen stroke from [Ballpoint](https://github.com/useit015/ballpoint)'s stroke engine, and every letter is a Gaegu outline written in one at a time. [`scripts/build.ts`](scripts/build.ts) draws each sheet twice, for light and dark, as plain SVG with CSS animation. No JavaScript, no external services.
-
-A GitHub Action redraws the ink calendar every night from the GraphQL API. Opening an issue titled `sign` runs [another one](.github/workflows/guestbook.yml) that adds your handle to [`data/guestbook.json`](data/guestbook.json) and writes it into the margin.
-
-</details>
